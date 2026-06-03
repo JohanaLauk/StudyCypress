@@ -81,6 +81,35 @@ it('Hello world 1', () => {
 
     //find by data-cy attribute
     cy.get('[data-cy="inputEmail1"]');
+
+    /*
+    ejemplo:
+    <div class="form-group row">
+        <label class="col-sm-3 label">Radios</label>
+    </div>
+
+    >> How to find <label> web element by text value --> cy.contains('Radios')
+    este comando busca elementos en el DOM que contengan el texto especificado
+
+    >> Get the value of the class for <label> web element using "invoke()" command --> cy.get('label').invoke('attr', 'class')" 
+    obtiene el atributo "class" del elemento <label> seleccionado. 
+    permite acceder a propiedades específicas de los elementos HTML
+
+    >> Get the <div>, save the context using "then()" and then click on "label" --> 
+    cy.get('div').then(element => {   
+        cy.wrap(element).find('label').click()
+    })
+        
+    >> What syntax for the assertion of the text "Radios" is correct? --> cy.get('label').should('contain', 'Radios')
+    verifica que el texto contenido en el elemento <label> sea "Radios"
+
+    >> What syntax for the assertion of the class value "label" is correct? --> 
+    cy.get('label').invoke('attr', 'class').then(class => {
+        expect(class).to.contain('label')
+    })
+    permite obtener el valor de la clase del elemento <label>, y luego verificar que contenga la subcadena "label", 
+    ya que el valor del atributo es "col-sm-3 label".
+    */
 })
 
 
@@ -102,6 +131,17 @@ it('Cypress Locator Methods', () => {
 })
 
 it('Child Elements', () => {
+    /*
+    ejemplo:
+    <div class="form-group row">
+        <label class="col-sm-3 label">Radios</label>
+    </div>
+
+    How to find <label> web element as a child element of <div> --> cy.get('div').find('label')
+
+    Utilizando get primero para seleccionar el div y luego find para buscar el label dentro de ese contexto, 
+    aseguras que la selección se limita solo a los hijos del div.
+    */
 
     //cy.contains('nb-card', 'Basic form');
     cy.contains('nb-card', 'Using the Grid').find('.row').find('button');

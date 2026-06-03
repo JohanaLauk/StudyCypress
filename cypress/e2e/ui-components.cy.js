@@ -336,19 +336,29 @@ it('Drag & Drop', () => {
 })
 
 
-it.only('Frames', () => {
+it.only('iFrames', () => {
     cy.contains('Modal & Overlays').click();
     cy.contains('Dialog').click();
 
-    //escribir en la terminal:
-    /// npm i cypress-iframe --save-dev
-    cy.get('');
+    /*
+    seguir la config --> https://www.npmjs.com/package/cypress-iframe
+    cypress no tiene soporte nativo para los iframes, por lo que hay que instalar el plugin para habilitar la funcionalidad.
+    escribir en la terminal:
+        npm i cypress-iframe --save-dev
+    */
 
+    cy.frameLoaded('[data-cy="esc-close-iframe"]');     //cargar el marco para luego usarlo y localizar los elementos
 
+    //forma 1
+    //cy.iframe('[data-cy="esc-close-iframe"]').contains('Open Dialog with esc close').click();     //aca se localiza el elemento
+    //cy.contains('Dismiss Dialog').click();
 
-
+    //forma 2
+    cy.enter('[data-cy="esc-close-iframe"]').then( getBody => {
+        getBody().contains('Open Dialog with esc close').click();
+        cy.contains('Dismiss Dialog').click();
+        getBody().contains('Open Dialog without esc close').click();
+        cy.contains('OK').click();
+    });
 })
-
-
-
 
