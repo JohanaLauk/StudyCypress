@@ -1,4 +1,4 @@
-// permite intellisense dentro del codigo, permitiendo escribir CI y llama dif metodos de Cypress
+// permite intellisense dentro del codigo, permitiendo escribir Cy y llamar a los dif metodos de Cypress
 /// <reference types="cypress" />
 
 beforeEach("Open application", () => {
@@ -267,13 +267,11 @@ it('Datepickers', () => {
 
     function selectDateFromCurrentDay() {
         cy.get('nb-calendar-view-mode').invoke('text').then(calendarMonthAndYear => {
-            if (!calendarMonthAndYear.includes(futureMonthLong) || !calendarMonthAndYear.includes(futureYear)) 
-            {
+            if (!calendarMonthAndYear.includes(futureMonthLong) || !calendarMonthAndYear.includes(futureYear)) {
                 cy.get('[data-name="chevron-right"]').click();
                 selectDateFromCurrentDay();
             }
-            else
-            {
+            else {
                 cy.get('.day-cell').not('.bounding-month').contains(futureDay).click(); 
             }
         });

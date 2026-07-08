@@ -1,4 +1,4 @@
-// permite intellisense dentro del codigo, permitiendo escribir CI y llama dif metodos de Cypress
+// permite intellisense dentro del codigo, permitiendo escribir Cy y llamar a los dif metodos de Cypress
 /// <reference types="cypress" />
 
 //DOCUMENTACION
