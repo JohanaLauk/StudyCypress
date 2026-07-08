@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+import { faker } from '@faker-js/faker';
+
 
 it.skip('first test', () => {
     //inspeccionar > network | fetch/XHR | tags > Response
@@ -17,7 +19,7 @@ it.skip('first test', () => {
 
 
 
-it.skip('modify api response', () => {
+it('modify api response', () => {
     cy.intercept('GET', '**/articles*', req => {
         req.continue( res => {
             res.body.articles[0].favoritesCount = 99999;
@@ -38,7 +40,7 @@ it.skip('Router Matcher', () => {
 
 
 
-it.skip('Waiting for APIs', () => {
+it('Waiting for APIs', () => {
     //cy.loginToApplication();
 
     //op 1
@@ -173,7 +175,7 @@ it('delete article from interface', () => {    //loggin + guardo token + crear a
 
 
 
-it('API testing End-to-end', () => {    //loggin + guardar token + crear articulo + eliminar articulo
+it('API testing End-to-end', {retries: 2}, () => {    //loggin + guardar token + crear articulo + eliminar articulo
 
     cy.request({
         url: Cypress.env('apiUrl')+'/users/login',   //inicio sesion primero
@@ -271,4 +273,37 @@ it('create & delete article', () => {    //crear articulo + borrar articulo desd
     cy.contains('button', 'Delete Article').first().click();    //presionamos boton borrar articulo
     cy.wait('@articleApiCall')
     cy.get('app-article-list').should('not.contain.text', '2title test cypress');    //verificamos que ya no exista
+})
+
+
+it.only('#2 create & delete article', () => {    //crear articulo + borrar articulo desde la pagina
+    const titleOfTheArticle = faker.person.fullName();
+    cy.loginToApplication2();
+
+    cy.get('@accessToken').then(accessToken => {
+        cy.request({
+            url: Cypress.env('apiUrl')+'/articles',
+            method: 'POST',
+            body: {
+                "article": {
+                    "title": titleOfTheArticle,
+                    "description": faker.person.jobTitle(),
+                    "body": faker.lorem.paragraph(15),
+                    "tagList": [
+                        "3test"
+                    ]
+                }
+            }, 
+            headers: {'Authorization': 'Token ' + accessToken }
+        }).then( response => {
+            expect(response.status).to.equal(201);      //cod creacion
+            expect(response.body.article.title).to.equal(titleOfTheArticle);     //assertion
+        })
+    })
+
+    cy.contains(titleOfTheArticle).click();      //entramos al articulo
+    cy.intercept('GET', '**/articles*').as('articleApiCall');
+    cy.contains('button', 'Delete Article').first().click();    //presionamos boton borrar articulo
+    cy.wait('@articleApiCall')
+    cy.get('app-article-list').should('not.contain.text', titleOfTheArticle);    //verificamos que ya no exista
 })

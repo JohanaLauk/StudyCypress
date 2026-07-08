@@ -22,6 +22,11 @@ module.exports = defineConfig({
       config.env.password = process.env.PASSWORD
       return config;
     },
+
+    retries: {
+      openMode: 1,  //Se usa cuando abrís Cypress con la interfaz gráfica (ventana donde elegís el navegador y hacés clic en un test). Ejemplo: npx cypress open | rpm run cy_run_qa
+      runMode: 1    //Se usa cuando ejecutás Cypress sin interfaz (no aparece ninguna ventana). npx cypress run. O en un pipeline de CI/CD como GitHub Actions, GitLab CI, Azure DevOps, Jenkins, etc.
+    }
   },
 
   viewportWidth: 1280,

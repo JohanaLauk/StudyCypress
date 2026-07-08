@@ -47,10 +47,10 @@ Cypress.Commands.add('loginToApplication2', () => {
         method: 'POST',
         body: {
             "user": {
-                //"email": "johana.e.lauk@gmail.com",
-                //"password": "jLcypress"
-                "email": Cypress.env('username'),
-                "password": Cypress.env('password')
+                "email": "johana.e.lauk@gmail.com",
+                "password": "jLcypress"
+                //"email": Cypress.env('username'),
+                //"password": Cypress.env('password')
             }
         }
     }).then( response => {
