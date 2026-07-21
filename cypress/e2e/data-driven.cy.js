@@ -1,5 +1,8 @@
 /// <reference types="cypress" />
 
+//ejecutar en la terminal --> npm install --save-dev @faker-js/faker
+//poner en workingWithAPIs.cy --> import { faker } from '@faker-js/faker';
+
 const testData = [
     { username: '12', errorMessage: 'username is too short (minimum is 3 characters)', errorIsDisplayed: true },
     { username: '123', errorMessage: 'username', errorIsDisplayed: false },

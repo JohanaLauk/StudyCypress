@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="10.011" tests="1" failures="1">
+  <testsuite name="Root Suite" timestamp="2026-07-21T20:03:00" tests="1" file="cypress\e2e\pageObjects.cy.js" time="10.010" failures="1">
+    <testcase name="test with page object" time="5.394" classname="test with page object">
+      <failure message="Timed out retrying after 4000ms: Expected to find content: &apos;Forms&apos; within the selector: &apos;a&apos; but never did." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Forms' within the selector: 'a' but never did.
+    at selectGroupMenuItem (webpack://udemy-cypress/./cypress/page-objects/navigationPage.js:41:7)
+    at NavigationPage.formLayoutsPage (webpack://udemy-cypress/./cypress/page-objects/navigationPage.js:16:8)
+    at Context.eval (webpack://udemy-cypress/./cypress/e2e/pageObjects.cy.js:27:15)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

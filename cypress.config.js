@@ -10,11 +10,23 @@ module.exports = defineConfig({
     apiUrl: 'https://conduit-api.bondaracademy.com/api'
   },
 
+  
+  reporter: 'cypress-multi-reporters',
+  reporterOptions: {
+    configFile: 'reporter-config.json',
+  },
+  
+
   e2e: {
     //baseUrl: 'https://playground.bondaracademy.com/',
     baseUrl: 'https://conduit.bondaracademy.com/',
 
+
     setupNodeEvents(on, config) {
+      //se usa para los reportes 
+      //https://www.npmjs.com/package/cypress-mochawesome-reporter
+      require('cypress-mochawesome-reporter/plugin')(on);
+
       // implement node event listeners here
       //esta es una forma de configurar variables de entorno
       //esto se usa en package.json:
