@@ -45,7 +45,7 @@ it('input fields', () => {
 })
 
 
-it('Radio buttons', () => {
+it('Radio buttons', {tags: ['@playground']}, () => {
     cy.contains('Forms').click();
     cy.contains('Form Layouts').click();
    
@@ -334,7 +334,7 @@ it('Drag & Drop', () => {
 })
 
 
-it.only('iFrames', () => {
+it.only('iFrames', {tags: ['@playground']}, () => {
     cy.contains('Modal & Overlays').click();
     cy.contains('Dialog').click();
 

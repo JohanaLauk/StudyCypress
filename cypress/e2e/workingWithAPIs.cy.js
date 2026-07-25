@@ -2,7 +2,7 @@
 import { faker } from '@faker-js/faker';
 
 
-it.skip('first test', () => {
+it('first test', {tags: ['@smoke']}, () => {
     //inspeccionar > network | fetch/XHR | tags > Response
     //cy.intercept('GET', 'https://conduit-api.bondaracademy.com/api/tags', {fixture: 'tags.json'});
     cy.intercept('GET', '**/tags', {fixture: 'tags.json'});
@@ -14,19 +14,21 @@ it.skip('first test', () => {
     // por ejemplo, si el limite de consulta es 9, y estamos esperando explicitamente 10, no hay coincidencia --> no se interceptará a la API 
     
     //hacer todos los mocks antes de iniciar la prueba real, en este caso sería antes de iniciar sesion
-    cy.loginToApplication();
+    //cy.loginToApplication2();
+    cy.UIlogin();
 })
 
 
 
-it('modify api response', () => {
+it('modify api response', {retries: 2, tags: ['@smoke', '@likes']}, () => {
     cy.intercept('GET', '**/articles*', req => {
         req.continue( res => {
             res.body.articles[0].favoritesCount = 99999;
             res.send(res.body);
         })
     });
-    cy.loginToApplication();
+    //cy.loginToApplication2();
+    cy.UIlogin();
     //cy.get('app-favorite-button').first().should('contain.text', '99999');
 })
 
@@ -67,7 +69,8 @@ it('Waiting for APIs', () => {
 
     //op 3
     cy.intercept('GET', '**/articles*').as('articleApiCall');   //alias api
-    cy.loginToApplication();
+    cy.UIlogin();
+    //cy.loginToApplication();
     //esperamos a que la llamada a la API se complete
     //con el then obtenemos acceso a toda info relacionada con la llamada a la API para solicitar info
     //o info del response, para utilizar cualquier propiedad de este objeto para nuestro escenario de prueba
@@ -124,7 +127,7 @@ it.skip('create article', () => {    //crear articulo de messi, donde en la prue
         })
     });
 
-    cy.loginToApplication();
+    cy.UIlogin();
     cy.get('app-favorite-button').first().should('contain.text', '1000');
 })
 
@@ -210,7 +213,7 @@ it('API testing End-to-end', {retries: 2}, () => {    //loggin + guardar token +
             expect(response.status).to.equal(201);
             expect(response.body.article.title).to.equal('Selección Argentina');    //assertion
         })
-
+        
         cy.request({    
             url: Cypress.env('apiUrl')+'/articles?limit=20&offset=0',
             method: 'GET',
@@ -276,7 +279,7 @@ it('create & delete article', () => {    //crear articulo + borrar articulo desd
 })
 
 
-it.only('#2 create & delete article', () => {    //crear articulo + borrar articulo desde la pagina
+it('#2 create & delete article', () => {    //crear articulo + borrar articulo desde la pagina
     const titleOfTheArticle = faker.person.fullName();
     cy.loginToApplication2();
 

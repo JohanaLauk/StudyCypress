@@ -2,21 +2,22 @@
   "name": "udemy-cypress",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    
-    "delete:reports": "powershell -Command \"Remove-Item 'cypress/reports/junit/*.xml' -Force -ErrorAction SilentlyContinue\"",
-    "prereport": "npm run delete:reports",
+    "delete:reportsPowerShell": "powershell -Command \"Remove-Item 'cypress/reports/junit/*.xml' -Force -ErrorAction SilentlyContinue\"",
+    "delete:reportsLinux": "rm -f cypress/reports/junit/*.xml",
+    "prereportPowerShell": "npm run delete:reportsPowerShell",
+    "prereportLinux": "npm run delete:reportsLinux",
     "junit:merge": "npx junit-merge -d cypress/reports/junit -o cypress/reports/junit/results.xml",
-    
-    "cy:run:all": "npm run prereport && npx cypress run || true && npm run junit:merge",
+    "cy:run:all:PS": "npm run prereportPowerShell && npx cypress run || true && npm run junit:merge",
+    "cy:run:all:L": "npm run prereportLinux && npx cypress run || true && npm run junit:merge",
     "cy_run_dev": "npx cypress open --env username='helloDEV@test.com', password='123dev'",
     "cy_run_qa": "npx cypress open --env username='helloQA@test.com', password='321qa'",
-    
     "cypress:smoke-chrome": "npx cypress run --spec 'cypress/e2e/test1.cy.js' --browser chrome",
     "cypress:smoke-firefox": "npx cypress run --spec 'cypress/e2e/test1.cy.js' --browser firefox",
     "cypress:smoke-all": "npm run cypress:smoke-chrome && cypress:smoke-firefox",
     "cypress:smoke-all-paralelo": "npm run cypress:smoke-chrome & cypress:smoke-firefox"
   },
   "devDependencies": {
+    "@cypress/grep": "^6.0.2",
     "@faker-js/faker": "^10.5.0",
     "cypress": "^15.14.2",
     "cypress-iframe": "^1.0.1",

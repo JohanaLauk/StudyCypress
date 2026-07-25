@@ -18,14 +18,18 @@ module.exports = defineConfig({
   
 
   e2e: {
-    //baseUrl: 'https://playground.bondaracademy.com/',
-    baseUrl: 'https://conduit.bondaracademy.com/',
+    //baseUrl: 'https://playground.bondaracademy.com/',   //tags: '@playground'
+    baseUrl: 'https://conduit.bondaracademy.com/',    //tags: '@conduit'
 
 
     setupNodeEvents(on, config) {
       //se usa para los reportes 
       //https://www.npmjs.com/package/cypress-mochawesome-reporter
       require('cypress-mochawesome-reporter/plugin')(on);
+
+      //se usa para Greg
+      const { plugin: cypressGrepPlugin } = require('@cypress/grep/plugin');
+      cypressGrepPlugin(config);
 
       // implement node event listeners here
       //esta es una forma de configurar variables de entorno

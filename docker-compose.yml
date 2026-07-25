@@ -1,0 +1,8 @@
+services:
+  cypress-tests:
+    build:  # construimos el archivo
+      context: .  # raíz de nuestro proyecto
+      dockerfile: Dockerfile  
+    image: cypress-tests  # si no indicamos, lo creo de forma generica
+    volumes:
+      - ./cypress/reports:/tests/cypress/reports  # mapeamos la carpeta en mi pc con la del contenedor docker

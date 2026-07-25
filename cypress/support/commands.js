@@ -23,9 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import 'cypress-iframe';
-import 'cypress-mochawesome-reporter/register';
 
+import 'cypress-iframe';
 
 Cypress.Commands.add('openHomePage', () => {
     cy.visit("/");
@@ -76,3 +75,68 @@ Cypress.Commands.add('loginToApplication2', () => {
 })
 
 
+Cypress.Commands.add("UIlogin", () => {
+    cy.session('user', () => {
+        cy.visit("/");
+        cy.contains("Sign in").click();
+        cy.get('[placeholder="Email"]').type(Cypress.env('username'));
+        cy.get('[placeholder="Password"]').type(Cypress.env('password'));
+        cy.contains('button', 'Sign in').click();
+        cy.location('pathname').should('eq', '/');  //verificamos que se haya loggeado correctamente
+    }) /*, 
+    {
+        //es para reutizar la cache, ejemplo sesiones
+        //https://docs.cypress.io/api/commands/session#switching-sessions-inside-tests
+        cacheAcrossSpecs: true
+    }*/
+
+    //este metodo no se encarga de la apertura de la pagina, asi que despues de la sesion de Cy, debemos abrir la pagina una vez mas
+    cy.visit("/");
+})
+
+/*
+1) loginToApplication2 → hace login directamente contra la API.
+2) UIlogin → hace login a través de la interfaz gráfica y usa cy.session() para reutilizar la sesión.
+
+1)
+Test Cypress
+     │ POST /api/users/login
+     ▼
+Backend / API
+     │ devuelve token
+     ▼
+accessToken
+     │ guardamos token
+     ▼
+localStorage
+     │
+     ▼
+Aplicación ya autenticada
+
+>>Se saltea esto:
+Abrir página
+    ↓
+Click Sign in
+    ↓
+Escribir email
+    ↓
+Escribir password
+    ↓
+Click Sign in
+
+
+2) Acá sí estás haciendo el login como lo haría un usuario real.
+cy.visit("/")
+      ↓
+Click "Sign in"
+      ↓
+Ingresar email
+      ↓
+Ingresar password
+      ↓
+Click "Sign in"
+      ↓
+Aplicación autentica
+      ↓
+Usuario logueado
+*/
